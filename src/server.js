@@ -18,12 +18,27 @@ app.get('/', (req, res) => {
   })
 })
 
+const ioCache = {
+  cc: [],
+}
+
 io.on('connect', (socket) => {
-  console.log('user connected', socket.id)
+  console.log(`socket ${socket.id} has connected`)
   io.emit('test', 'hello')
 
   socket.on('cc', (data) => {
+    data.chatid = ioCache.cc.length
     console.log(data)
-    socket.broadcast.emit('broadcast', data)
+    ioCache.cc = [
+      ...ioCache.cc,
+      data,
+    ]
+    console.log(ioCache)
+    io.emit('broadcast', ioCache.cc)
+  })
+
+  socket.on('disconnect', (reason) => {
+    console.info(`socket ${socket.id} has disconnected`)
+    console.info(`reason : ${reason}`)
   })
 })
