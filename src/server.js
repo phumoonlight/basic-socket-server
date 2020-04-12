@@ -14,7 +14,7 @@ server.listen(PORT, () => {
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'OK',
+    serverStatus: 'online',
   })
 })
 
@@ -24,14 +24,14 @@ const ioCache = {
 
 io.on('connect', (socket) => {
   console.log(`socket ${socket.id} has connected`)
-  io.emit('test', 'hello')
+  io.emit('broadcast', ioCache.cc)
 
   socket.on('cc', (data) => {
     data.chatid = ioCache.cc.length
     console.log(data)
     ioCache.cc = [
-      ...ioCache.cc,
       data,
+      ...ioCache.cc,
     ]
     console.log(ioCache)
     io.emit('broadcast', ioCache.cc)
