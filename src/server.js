@@ -19,22 +19,18 @@ app.get('/', (req, res) => {
 })
 
 const ioCache = {
-  cc: [],
+  messages: [],
 }
 
 io.on('connect', (socket) => {
   console.log(`socket ${socket.id} has connected`)
-  io.emit('broadcast', ioCache.cc)
+  io.emit('broadcast', ioCache.messages)
 
-  socket.on('cc', (data) => {
-    data.chatid = ioCache.cc.length
-    console.log(data)
-    ioCache.cc = [
-      data,
-      ...ioCache.cc,
-    ]
-    console.log(ioCache)
-    io.emit('broadcast', ioCache.cc)
+  socket.on('cc', (payload) => {
+    const cloned = payload
+    cloned.chatid = ioCache.messages.length
+    ioCache.messages = [cloned, ...ioCache.messages]
+    io.emit('broadcast', ioCache.messages)
   })
 
   socket.on('disconnect', (reason) => {

@@ -15,11 +15,8 @@
         "sourceType": "module"
     },
     "rules": {
-        "no-console": 0,
-        "linebreak-style": 0,
-        "semi": [
-            "error",
-            "never"
-        ]
+        "no-console": "off",
+        "linebreak-style": "off",
+        "semi": [2, "never"]
     }
 }
