@@ -10,10 +10,10 @@ const useSocket = (server) => {
     console.log(`socket ${socket.id} has connected`)
     io.emit('broadcast', socketStorage.messages)
 
-    socket.on('cc', (payload) => {
-      const clonedPayload = payload
-      clonedPayload.chatid = socketStorage.messages.length
-      socketStorage.messages = [clonedPayload, ...socketStorage.messages]
+    socket.on('client-message', (clientMessage) => {
+      const clonedMessage = clientMessage
+      clonedMessage.chatid = socketStorage.messages.length
+      socketStorage.messages = [clonedMessage, ...socketStorage.messages]
       io.emit('broadcast', socketStorage.messages)
     })
 
