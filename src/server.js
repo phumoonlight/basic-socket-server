@@ -1,12 +1,12 @@
 import { Server } from 'http'
 import express from 'express'
-import useSocket from './useSocket'
+import configSocket from './configSocket'
 
 const PORT = process.env.PORT || 8080
 
 const app = express()
 const server = Server(app)
-useSocket(server)
+configSocket(server)
 
 server.listen(PORT, () => {
   console.info(`ready on port ${PORT}`)
